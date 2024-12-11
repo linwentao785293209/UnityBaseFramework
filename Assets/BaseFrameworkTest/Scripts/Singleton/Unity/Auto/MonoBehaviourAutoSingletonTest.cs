@@ -21,10 +21,10 @@ namespace BaseFrameworkTest
                     name = nameof(TestMonoBehaviourAutoSingleton) + " AddComponent"
                 };
 
-                TestMonoBehaviourAutoSingleton testProUnityAutoSingletonManager =
+                TestMonoBehaviourAutoSingleton testMonoBehaviourAutoSingleton =
                     gameObj.AddComponent<TestMonoBehaviourAutoSingleton>();
 
-                testProUnityAutoSingletonManager.TestMethod();
+                testMonoBehaviourAutoSingleton.TestMethod();
             }
         }
     }
