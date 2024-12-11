@@ -5,7 +5,7 @@ namespace BaseFramework
     /// <summary>
     /// MonoBehaviour管理器
     /// </summary>
-    public sealed class ProMonoBehaviourManager : MonoBehaviourAutoSingleton<ProMonoBehaviourManager>
+    public sealed class MonoBehaviourManager : MonoBehaviourAutoSingleton<MonoBehaviourManager>
     {
         private event UnityAction UpdateEvent;
         private event UnityAction FixedUpdateEvent;

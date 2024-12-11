@@ -7,74 +7,74 @@ namespace BaseFrameworkTest
     {
         private void Start()
         {
-            ProMonoBehaviourManager.Instance.AddUpdateListener(OnCheckInput);
+            MonoBehaviourManager.Instance.AddUpdateListener(OnCheckInput);
         }
 
         private void OnDestroy()
         {
-            ProMonoBehaviourManager.Instance?.RemoveUpdateListener(OnCheckInput);
+            MonoBehaviourManager.Instance?.RemoveUpdateListener(OnCheckInput);
         }
 
         private void OnCheckInput()
         {
             if (Input.GetKeyDown(KeyCode.Q))
             {
-                ProMonoBehaviourManager.Instance.AddUpdateListener(OnUpdate1);
+                MonoBehaviourManager.Instance.AddUpdateListener(OnUpdate1);
             }
 
             if (Input.GetKeyDown(KeyCode.W))
             {
-                ProMonoBehaviourManager.Instance.AddFixedUpdateListener(OnFixedUpdate1);
+                MonoBehaviourManager.Instance.AddFixedUpdateListener(OnFixedUpdate1);
             }
 
             if (Input.GetKeyDown(KeyCode.E))
             {
-                ProMonoBehaviourManager.Instance.AddLateUpdateListener(OnLateUpdate1);
+                MonoBehaviourManager.Instance.AddLateUpdateListener(OnLateUpdate1);
             }
 
             if (Input.GetKeyDown(KeyCode.R))
             {
-                ProMonoBehaviourManager.Instance.AddUpdateListener(OnUpdate2);
+                MonoBehaviourManager.Instance.AddUpdateListener(OnUpdate2);
             }
 
             if (Input.GetKeyDown(KeyCode.T))
             {
-                ProMonoBehaviourManager.Instance.AddFixedUpdateListener(OnFixedUpdate2);
+                MonoBehaviourManager.Instance.AddFixedUpdateListener(OnFixedUpdate2);
             }
 
             if (Input.GetKeyDown(KeyCode.Y))
             {
-                ProMonoBehaviourManager.Instance.AddLateUpdateListener(OnLateUpdate2);
+                MonoBehaviourManager.Instance.AddLateUpdateListener(OnLateUpdate2);
             }
 
             if (Input.GetKeyDown(KeyCode.A))
             {
-                ProMonoBehaviourManager.Instance?.RemoveUpdateListener(OnUpdate1);
+                MonoBehaviourManager.Instance?.RemoveUpdateListener(OnUpdate1);
             }
 
             if (Input.GetKeyDown(KeyCode.S))
             {
-                ProMonoBehaviourManager.Instance?.RemoveFixedUpdateListener(OnFixedUpdate1);
+                MonoBehaviourManager.Instance?.RemoveFixedUpdateListener(OnFixedUpdate1);
             }
 
             if (Input.GetKeyDown(KeyCode.D))
             {
-                ProMonoBehaviourManager.Instance?.RemoveLateUpdateListener(OnLateUpdate1);
+                MonoBehaviourManager.Instance?.RemoveLateUpdateListener(OnLateUpdate1);
             }
 
             if (Input.GetKeyDown(KeyCode.F))
             {
-                ProMonoBehaviourManager.Instance?.RemoveUpdateListener(OnUpdate2);
+                MonoBehaviourManager.Instance?.RemoveUpdateListener(OnUpdate2);
             }
 
             if (Input.GetKeyDown(KeyCode.G))
             {
-                ProMonoBehaviourManager.Instance?.RemoveFixedUpdateListener(OnFixedUpdate2);
+                MonoBehaviourManager.Instance?.RemoveFixedUpdateListener(OnFixedUpdate2);
             }
 
             if (Input.GetKeyDown(KeyCode.H))
             {
-                ProMonoBehaviourManager.Instance?.RemoveLateUpdateListener(OnLateUpdate2);
+                MonoBehaviourManager.Instance?.RemoveLateUpdateListener(OnLateUpdate2);
             }
         }
 
