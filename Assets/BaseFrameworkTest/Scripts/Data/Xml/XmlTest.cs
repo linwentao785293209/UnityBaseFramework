@@ -88,6 +88,14 @@ namespace BaseFrameworkTest
 
                 Log.LogDebug($"{XmlDataManager.Instance.PersistentDataPath}");
             }
+            else if (Input.GetKeyDown(KeyCode.E))
+            {
+                XmlDataManager.Instance.Delete("myXmlTestClass");
+            }
+            else if (Input.GetKeyDown(KeyCode.R))
+            {
+                XmlDataManager.Instance.Clear();
+            }
         }
     }
 }

@@ -12,12 +12,14 @@ namespace BaseFrameworkTest
             if (Input.GetKeyDown(KeyCode.Q))
             {
                 TestPlayerPrefsClass testPlayerPrefsClass1 = new TestPlayerPrefsClass();
-                PlayerPrefsDataManager.Instance.Save<TestPlayerPrefsClass>("myPlayerPrefsTestClass", testPlayerPrefsClass1);
+                PlayerPrefsDataManager.Instance.Save<TestPlayerPrefsClass>("myPlayerPrefsTestClass",
+                    testPlayerPrefsClass1);
                 Log.LogDebug("Saved PlayerPrefsTestClass: " + testPlayerPrefsClass1);
             }
             else if (Input.GetKeyDown(KeyCode.W))
             {
-                TestPlayerPrefsClass testPlayerPrefsClass2 = PlayerPrefsDataManager.Instance.Load<TestPlayerPrefsClass>("myPlayerPrefsTestClass");
+                TestPlayerPrefsClass testPlayerPrefsClass2 =
+                    PlayerPrefsDataManager.Instance.Load<TestPlayerPrefsClass>("myPlayerPrefsTestClass");
                 if (testPlayerPrefsClass2 != null)
                 {
                     Log.LogDebug("Loaded PlayerPrefsTestClass:");
@@ -42,16 +44,18 @@ namespace BaseFrameworkTest
                     {
                         Log.LogDebug("playerPrefsTestItemClassArray item: id = " + item.id + ", num = " + item.num);
                     }
+
                     Log.LogDebug("intList: " + string.Join(", ", testPlayerPrefsClass2.intList));
-                    Log.LogDebug("intStringDict: " + string.Join(", ", testPlayerPrefsClass2.intStringDict.Select(kv => kv.Key + ": " + kv.Value)));
-                    
-                    
+                    Log.LogDebug("intStringDict: " + string.Join(", ",
+                        testPlayerPrefsClass2.intStringDict.Select(kv => kv.Key + ": " + kv.Value)));
+
+
                     // 遍历并打印列表
                     foreach (var item in testPlayerPrefsClass2.testItemList)
                     {
                         Log.LogDebug("testItemList item: id = " + item.id + ", num = " + item.num);
                     }
-                    
+
                     // 遍历并打印字典
                     foreach (var kv in testPlayerPrefsClass2.testItemDict)
                     {
@@ -62,6 +66,14 @@ namespace BaseFrameworkTest
                 {
                     Log.LogDebug("Failed to load PlayerPrefsTestClass.");
                 }
+            }
+            else if (Input.GetKeyDown(KeyCode.E))
+            {
+                PlayerPrefsDataManager.Instance.Delete("myPlayerPrefsTestClass");
+            }
+            else if (Input.GetKeyDown(KeyCode.R))
+            {
+                PlayerPrefsDataManager.Instance.Clear();
             }
         }
     }

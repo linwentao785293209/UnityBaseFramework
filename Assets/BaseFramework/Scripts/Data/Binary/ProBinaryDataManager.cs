@@ -1,23 +1,19 @@
 ﻿using System;
-using System.Collections.Concurrent;
 using System.IO;
-using System.Xml.Serialization;
-
+using System.Runtime.Serialization.Formatters.Binary;
 
 namespace BaseFramework
 {
     /// <summary>
-    /// Xml 数据管理器
+    /// 二进制数据管理器
     /// </summary>
-    public class XmlDataManager : BaseDataManager<XmlDataManager>
+    public class BinaryDataManager : BaseDataManager<BinaryDataManager>
     {
-        protected override string DataString => Const.Xml;
-        protected override EDataType DataType => EDataType.Xml;
-        protected override string DataExtension => "xml";
-        private readonly ConcurrentDictionary<Type, XmlSerializer> _xmlSerializerCache =
-            new ConcurrentDictionary<Type, XmlSerializer>();
+        protected override string DataString => Const.Binary;
+        protected override EDataType DataType => EDataType.Binary;
+        protected override string DataExtension => "tao";
 
-        private XmlDataManager()
+        private BinaryDataManager()
         {
         }
 
@@ -32,15 +28,15 @@ namespace BaseFramework
             Directory.CreateDirectory(Path.GetDirectoryName(path));
             try
             {
-                using (var fileStream = new FileStream(path, FileMode.Create, FileAccess.Write))
+                using (FileStream fileStream = new FileStream(path, FileMode.Create, FileAccess.Write))
                 {
-                    var xmlSerializer = GetSerializer(value.GetType());
-                    xmlSerializer.Serialize(fileStream, value);
+                    BinaryFormatter binaryFormatter = new BinaryFormatter();
+                    binaryFormatter.Serialize(fileStream, value);
                 }
             }
             catch (Exception e)
             {
-                Log.LogError($"保存 XML 数据失败，错误信息：{e.Message}\n{e.StackTrace}");
+                Log.LogError($"保存二进制数据失败，错误信息：{e.Message}\n{e.StackTrace}");
             }
         }
 
@@ -61,11 +57,25 @@ namespace BaseFramework
                     return Activator.CreateInstance(type);
                 }
             }
-            using (var fileStream = new FileStream(path, FileMode.Open, FileAccess.Read))
+            object value;
+            try
             {
-                var xmlSerializer = GetSerializer(type);
-                return xmlSerializer.Deserialize(fileStream);
+                using FileStream fileStream = new FileStream(path, FileMode.Open, FileAccess.Read);
+                BinaryFormatter binaryFormatter = new BinaryFormatter();
+                value = binaryFormatter.Deserialize(fileStream);
             }
+            catch (Exception e)
+            {
+                Log.LogError($"加载二进制数据失败，错误信息：{e.Message}\n{e.StackTrace}");
+                return Activator.CreateInstance(type);
+            }
+
+            if (type.IsInstanceOfType(value))
+            {
+                return value;
+            }
+            Log.LogWarning($"Type {type} 不匹配, 返回默认实例！");
+            return Activator.CreateInstance(type);
         }
 
         protected override bool OnDelete(string key)
@@ -80,15 +90,12 @@ namespace BaseFramework
                 }
                 catch (Exception e)
                 {
-                    Log.LogError($"删除 XML 文件失败，错误信息：{e.Message}\n{e.StackTrace}");
+                    Log.LogError($"删除二进制文件失败，错误信息：{e.Message}\n{e.StackTrace}");
                     return false;
                 }
             }
-            else
-            {
-                Log.LogWarning($"文件 {key} 不存在，无法删除。");
-                return false;
-            }
+            Log.LogWarning($"文件 {key} 不存在，无法删除。");
+            return false;
         }
 
         protected override void OnClear()
@@ -102,16 +109,11 @@ namespace BaseFramework
                 }
                 catch (Exception e)
                 {
-                    Log.LogError($"清理 XML 文件失败，错误信息：{e.Message}\n{e.StackTrace}");
+                    Log.LogError($"清理二进制文件失败，错误信息：{e.Message}\n{e.StackTrace}");
                 }
             }
 
-            Log.LogInfo($"已清理 {files.Length} 个 XML 文件。");
-        }
-
-        private XmlSerializer GetSerializer(Type type)
-        {
-            return _xmlSerializerCache.GetOrAdd(type, t => new XmlSerializer(t));
+            Log.LogInfo($"已清理 {files.Length} 个二进制文件。");
         }
     }
 }

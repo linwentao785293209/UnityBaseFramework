@@ -1,24 +1,28 @@
 ﻿using System;
-using System.Collections.Concurrent;
 using System.IO;
-using System.Xml.Serialization;
-
+using UnityEngine;
+using LitJson;
+using Newtonsoft.Json;
 
 namespace BaseFramework
 {
     /// <summary>
-    /// Xml 数据管理器
+    /// JSON 数据管理器
     /// </summary>
-    public class XmlDataManager : BaseDataManager<XmlDataManager>
+    public class JsonDataManager : BaseDataManager<JsonDataManager>
     {
-        protected override string DataString => Const.Xml;
-        protected override EDataType DataType => EDataType.Xml;
-        protected override string DataExtension => "xml";
-        private readonly ConcurrentDictionary<Type, XmlSerializer> _xmlSerializerCache =
-            new ConcurrentDictionary<Type, XmlSerializer>();
+        private EJsonType _jsonType = EJsonType.NewtonsoftJson;
+        protected override string DataString => Const.Json;
+        protected override EDataType DataType => EDataType.Json;
+        protected override string DataExtension => "json";
 
-        private XmlDataManager()
+        private JsonDataManager()
         {
+        }
+
+        public void SetJsonType(EJsonType jsonType)
+        {
+            _jsonType = jsonType;
         }
 
         protected override void OnSave<TData>(string key, TData value)
@@ -30,17 +34,14 @@ namespace BaseFramework
         {
             string path = Path.Combine(PersistentDataPath, $"{key}.{DataExtension}");
             Directory.CreateDirectory(Path.GetDirectoryName(path));
+            string jsonStr = Serialize(value);
             try
             {
-                using (var fileStream = new FileStream(path, FileMode.Create, FileAccess.Write))
-                {
-                    var xmlSerializer = GetSerializer(value.GetType());
-                    xmlSerializer.Serialize(fileStream, value);
-                }
+                File.WriteAllText(path, jsonStr);
             }
             catch (Exception e)
             {
-                Log.LogError($"保存 XML 数据失败，错误信息：{e.Message}\n{e.StackTrace}");
+                Log.LogError($"保存 JSON 数据失败，错误信息：{e.Message}\n{e.StackTrace}");
             }
         }
 
@@ -61,11 +62,8 @@ namespace BaseFramework
                     return Activator.CreateInstance(type);
                 }
             }
-            using (var fileStream = new FileStream(path, FileMode.Open, FileAccess.Read))
-            {
-                var xmlSerializer = GetSerializer(type);
-                return xmlSerializer.Deserialize(fileStream);
-            }
+            string jsonStr = File.ReadAllText(path);
+            return Deserialize(jsonStr, type);
         }
 
         protected override bool OnDelete(string key)
@@ -80,7 +78,7 @@ namespace BaseFramework
                 }
                 catch (Exception e)
                 {
-                    Log.LogError($"删除 XML 文件失败，错误信息：{e.Message}\n{e.StackTrace}");
+                    Log.LogError($"删除 JSON 文件失败，错误信息：{e.Message}\n{e.StackTrace}");
                     return false;
                 }
             }
@@ -102,16 +100,33 @@ namespace BaseFramework
                 }
                 catch (Exception e)
                 {
-                    Log.LogError($"清理 XML 文件失败，错误信息：{e.Message}\n{e.StackTrace}");
+                    Log.LogError($"清理 JSON 文件失败，错误信息：{e.Message}\n{e.StackTrace}");
                 }
             }
 
-            Log.LogInfo($"已清理 {files.Length} 个 XML 文件。");
+            Log.LogInfo($"已清理 {files.Length} 个 JSON 文件。");
         }
 
-        private XmlSerializer GetSerializer(Type type)
+        private string Serialize(object value)
         {
-            return _xmlSerializerCache.GetOrAdd(type, t => new XmlSerializer(t));
+            return _jsonType switch
+            {
+                EJsonType.JsonUtility => JsonUtility.ToJson(value),
+                EJsonType.LitJson => JsonMapper.ToJson(value),
+                EJsonType.NewtonsoftJson => JsonConvert.SerializeObject(value),
+                _ => throw new NotSupportedException($"不支持的 JSON 类型: {_jsonType}")
+            };
+        }
+
+        private object Deserialize(string jsonStr, Type type)
+        {
+            return _jsonType switch
+            {
+                EJsonType.JsonUtility => JsonUtility.FromJson(jsonStr, type),
+                EJsonType.LitJson => JsonMapper.ToObject(jsonStr, type),
+                EJsonType.NewtonsoftJson => JsonConvert.DeserializeObject(jsonStr, type),
+                _ => throw new NotSupportedException($"不支持的 JSON 类型: {_jsonType}")
+            };
         }
     }
 }
