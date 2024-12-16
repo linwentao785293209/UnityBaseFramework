@@ -4,7 +4,7 @@
 // using System.Reflection;
 // using UnityEngine;
 //
-// namespace ProFramework
+// namespace BaseFramework
 // {
 //     public class ConfigsTest : MonoBehaviour
 //     {
@@ -12,15 +12,15 @@
 //         void Start()
 //         {
 //             // 加载并打印第一个数据容器
-//             ProConfigManager.Instance.LoadExcelTable<ProFrameworkTestInfoContainer, ProFrameworkTestInfo>();
-//             ProFrameworkTestInfoContainer proFrameworkTestInfoContainer =
-//                 ProConfigManager.Instance.GetExcelTable<ProFrameworkTestInfoContainer>();
+//             ProConfigManager.Instance.LoadExcelTable<BaseFrameworkTestInfoContainer, BaseFrameworkTestInfo>();
+//             BaseFrameworkTestInfoContainer proFrameworkTestInfoContainer =
+//                 ProConfigManager.Instance.GetExcelTable<BaseFrameworkTestInfoContainer>();
 //             PrintDataContainer(proFrameworkTestInfoContainer);
 //
 //             // 加载并打印第二个数据容器
-//             ProConfigManager.Instance.LoadExcelTable<ProFrameworkTestInfo2Container, ProFrameworkTestInfo2>();
-//             ProFrameworkTestInfo2Container proFrameworkTestInfo2Container =
-//                 ProConfigManager.Instance.GetExcelTable<ProFrameworkTestInfo2Container>();
+//             ProConfigManager.Instance.LoadExcelTable<BaseFrameworkTestInfo2Container, BaseFrameworkTestInfo2>();
+//             BaseFrameworkTestInfo2Container proFrameworkTestInfo2Container =
+//                 ProConfigManager.Instance.GetExcelTable<BaseFrameworkTestInfo2Container>();
 //             PrintDataContainer(proFrameworkTestInfo2Container);
 //         }
 //
