@@ -7,7 +7,7 @@ namespace BaseFramework
     /// <summary>
     /// 二进制数据管理器
     /// </summary>
-    public class BinaryDataManager : BaseDataManager<BinaryDataManager>
+    public class BinaryDataManager : DataManagerBase<BinaryDataManager>
     {
         protected override string DataString => Const.Binary;
         protected override EDataType DataType => EDataType.Binary;

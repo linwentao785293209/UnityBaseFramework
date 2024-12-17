@@ -9,7 +9,7 @@ namespace BaseFramework
     /// <summary>
     /// JSON 数据管理器
     /// </summary>
-    public class JsonDataManager : BaseDataManager<JsonDataManager>
+    public class JsonDataManager : DataManagerBase<JsonDataManager>
     {
         private EJsonType _jsonType = EJsonType.NewtonsoftJson;
         protected override string DataString => Const.Json;

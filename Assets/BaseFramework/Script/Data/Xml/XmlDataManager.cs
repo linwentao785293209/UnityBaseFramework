@@ -9,7 +9,7 @@ namespace BaseFramework
     /// <summary>
     /// Xml 数据管理器
     /// </summary>
-    public class XmlDataManager : BaseDataManager<XmlDataManager>
+    public class XmlDataManager : DataManagerBase<XmlDataManager>
     {
         protected override string DataString => Const.Xml;
         protected override EDataType DataType => EDataType.Xml;

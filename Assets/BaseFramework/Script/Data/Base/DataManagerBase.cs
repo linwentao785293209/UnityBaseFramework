@@ -7,8 +7,8 @@ namespace BaseFramework
     /// 数据管理器基类
     /// </summary>
     /// <typeparam name="T">数据管理器类型</typeparam>
-    public abstract class BaseDataManager<T>: CSharpSingleton<T>, IDataManager, IStreamingAssetsPath, IPersistentDataPath
-        where T : BaseDataManager<T>
+    public abstract class DataManagerBase<T>: CSharpSingleton<T>, IDataManager, IStreamingAssetsPath, IPersistentDataPath
+        where T : DataManagerBase<T>
     {
         public string StreamingAssetsPath => $"{Application.streamingAssetsPath}/{Const.Data}/{DataString}/";
         public string PersistentDataPath => $"{Application.persistentDataPath}/{Const.Data}/{DataString}/";

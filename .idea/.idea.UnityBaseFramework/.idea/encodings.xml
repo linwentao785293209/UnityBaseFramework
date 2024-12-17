@@ -3,5 +3,7 @@
   <component name="Encoding" addBOMForNewFiles="with BOM under Windows, with no BOM otherwise">
     <file url="file://$PROJECT_DIR$/Assets/BaseFramework/Script/Event/EEventType.cs" charset="GB2312" />
     <file url="file://$PROJECT_DIR$/Assets/BaseFramework/Script/Event/EventManager.cs" charset="GB2312" />
+    <file url="file://$PROJECT_DIR$/Assets/BaseFramework/Script/Timer/Timer.cs" charset="GB2312" />
+    <file url="file://$PROJECT_DIR$/Assets/BaseFramework/Script/Timer/TimerManager.cs" charset="GB2312" />
   </component>
 </project>

@@ -8,7 +8,7 @@ namespace BaseFramework
     /// <summary>
     /// PlayerPrefs 数据管理器
     /// </summary>
-    public sealed class PlayerPrefsDataManager : BaseDataManager<PlayerPrefsDataManager>
+    public sealed class PlayerPrefsDataManager : DataManagerBase<PlayerPrefsDataManager>
     {
         protected override string DataString => Const.PlayerPrefs;
         protected override EDataType DataType => EDataType.PlayerPrefs;
