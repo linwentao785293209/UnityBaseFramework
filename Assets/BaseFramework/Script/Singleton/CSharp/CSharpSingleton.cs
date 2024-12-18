@@ -3,10 +3,6 @@ using System;
 
 namespace BaseFramework
 {
-    /// <summary>
-    /// C#单例模式基类
-    /// </summary>
-    /// <typeparam name="T">单例类型</typeparam>
     public abstract class CSharpSingleton<T> where T : CSharpSingleton<T>
     {
         // 使用 Lazy<T> 实现线程安全的单例，延迟加载
@@ -22,7 +18,7 @@ namespace BaseFramework
 
             // 通过Activator的CreateInstance方法 反射调用构造函数
             // return Activator.CreateInstance(typeof(T), true) as T;
-            
+
             // 通过类型对象的GetConstructor方法 获取指定类型的构造函数信息
             // BindingFlags.Instance | BindingFlags.NonPublic：指定查找实例构造函数且为非公共的（私有、保护、内部等）
             // null：指定不限制绑定上下文

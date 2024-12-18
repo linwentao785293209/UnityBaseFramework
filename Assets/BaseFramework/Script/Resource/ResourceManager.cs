@@ -6,9 +6,6 @@ using UnityEngine.Events;
 
 namespace BaseFramework
 {
-    /// <summary>
-    /// 管理游戏资源的加载、卸载以及引用计数的核心类。
-    /// </summary>
     public class ResourceManager : CSharpSingleton<ResourceManager>
     {
         /// <summary>

@@ -1,8 +1,5 @@
 ﻿namespace BaseFramework
 {
-    /// <summary>
-    /// 日志级别枚举
-    /// </summary>
     public enum ELogLevel
     {
         /// <summary>

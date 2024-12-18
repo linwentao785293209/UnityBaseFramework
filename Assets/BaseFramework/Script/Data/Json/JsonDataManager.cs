@@ -6,9 +6,6 @@ using Newtonsoft.Json;
 
 namespace BaseFramework
 {
-    /// <summary>
-    /// JSON 数据管理器
-    /// </summary>
     public class JsonDataManager : DataManagerBase<JsonDataManager>
     {
         private EJsonType _jsonType = EJsonType.NewtonsoftJson;
@@ -62,6 +59,7 @@ namespace BaseFramework
                     return Activator.CreateInstance(type);
                 }
             }
+
             string jsonStr = File.ReadAllText(path);
             return Deserialize(jsonStr, type);
         }

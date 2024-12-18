@@ -3,11 +3,8 @@ using UnityEngine;
 
 namespace BaseFramework
 {
-    /// <summary>
-    /// 数据管理器基类
-    /// </summary>
-    /// <typeparam name="T">数据管理器类型</typeparam>
-    public abstract class DataManagerBase<T>: CSharpSingleton<T>, IDataManager, IStreamingAssetsPath, IPersistentDataPath
+    public abstract class DataManagerBase<T> : CSharpSingleton<T>, IDataManager, IStreamingAssetsPath,
+        IPersistentDataPath
         where T : DataManagerBase<T>
     {
         public string StreamingAssetsPath => $"{Application.streamingAssetsPath}/{Const.Data}/{DataString}/";

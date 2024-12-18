@@ -2,9 +2,6 @@
 
 namespace BaseFramework
 {
-    /// <summary>
-    /// 数据管理器接口
-    /// </summary>
     public interface IDataManager
     {
         void Save<TData>(string key, TData value);

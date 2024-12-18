@@ -2,9 +2,6 @@
 
 namespace BaseFramework
 {
-    /// <summary>
-    /// Resource信息基类
-    /// </summary>
     public abstract class ResourceInfoBase
     {
         public int RefCount;

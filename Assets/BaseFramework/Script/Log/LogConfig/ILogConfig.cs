@@ -1,8 +1,5 @@
 ﻿namespace BaseFramework
 {
-    /// <summary>
-    /// 日志配置接口
-    /// </summary>
     public interface ILogConfig
     {
         /// <summary>

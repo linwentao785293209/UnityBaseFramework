@@ -2,10 +2,7 @@
 
 namespace BaseFramework
 {
-    /// <summary>
-    /// 日志类，用于记录和输出日志信息
-    /// </summary>
-    public class Log
+    public static class Log
     {
         /// <summary>
         /// 用于加锁的对象
@@ -84,7 +81,6 @@ namespace BaseFramework
         /// <param name="messages">日志信息</param>
         public static void LogError(params object[] messages) => LogMessage(ELogLevel.Error, messages);
 
-
         /// <summary>
         /// 输出日志信息方法
         /// </summary>
@@ -96,23 +92,42 @@ namespace BaseFramework
             if (!LogConfig.IsLogEnabled || logLevel < LogConfig.LogLevel)
                 return;
 
+            // 获取日志级别对应的颜色
+            string color = GetLogLevelColor(logLevel);
+            string formattedMessage = $"<color={color}>{FormatMessage(logLevel, messages)}</color>";
+
             // 根据日志级别选择相应的输出方法
             switch (logLevel)
             {
                 case ELogLevel.Debug:
-                    Debug.Log($"{FormatMessage(logLevel, messages)}");
-                    break;
                 case ELogLevel.Info:
-                    Debug.Log($"{FormatMessage(logLevel, messages)}");
+                    Debug.Log(formattedMessage);
                     break;
                 case ELogLevel.Warning:
-                    Debug.LogWarning($"{FormatMessage(logLevel, messages)}");
+                    Debug.LogWarning(formattedMessage);
                     break;
                 case ELogLevel.Error:
-                    Debug.LogError($"{FormatMessage(logLevel, messages)}");
+                    Debug.LogError(formattedMessage);
                     break;
                 default:
                     throw new System.ArgumentException($"Unsupported log level: {logLevel}");
+            }
+        }
+
+        /// <summary>
+        /// 获取日志级别对应的颜色
+        /// </summary>
+        /// <param name="logLevel">日志级别</param>
+        /// <returns>颜色字符串</returns>
+        private static string GetLogLevelColor(ELogLevel logLevel)
+        {
+            switch (logLevel)
+            {
+                case ELogLevel.Debug: return "white"; // Debug 级别显示白色
+                case ELogLevel.Info: return "green"; // Info 级别显示绿色
+                case ELogLevel.Warning: return "yellow"; // Warning 级别显示黄色
+                case ELogLevel.Error: return "red"; // Error 级别显示红色
+                default: return "white"; // 默认白色
             }
         }
 

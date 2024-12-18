@@ -2,9 +2,6 @@
 
 namespace BaseFramework
 {
-    /// <summary>
-    /// 数据验证器，提供通用的参数验证方法。
-    /// </summary>
     public static class DataValidator
     {
         public static void ValidateKey(string key)

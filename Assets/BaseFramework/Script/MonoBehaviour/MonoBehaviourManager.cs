@@ -2,9 +2,6 @@
 
 namespace BaseFramework
 {
-    /// <summary>
-    /// MonoBehaviour管理器
-    /// </summary>
     public sealed class MonoBehaviourManager : MonoBehaviourAutoSingleton<MonoBehaviourManager>
     {
         private event UnityAction UpdateEvent;

@@ -4,9 +4,6 @@ using System.Runtime.Serialization.Formatters.Binary;
 
 namespace BaseFramework
 {
-    /// <summary>
-    /// 二进制数据管理器
-    /// </summary>
     public class BinaryDataManager : DataManagerBase<BinaryDataManager>
     {
         protected override string DataString => Const.Binary;
@@ -57,6 +54,7 @@ namespace BaseFramework
                     return Activator.CreateInstance(type);
                 }
             }
+
             object value;
             try
             {
@@ -74,6 +72,7 @@ namespace BaseFramework
             {
                 return value;
             }
+
             Log.LogWarning($"Type {type} 不匹配, 返回默认实例！");
             return Activator.CreateInstance(type);
         }
@@ -94,6 +93,7 @@ namespace BaseFramework
                     return false;
                 }
             }
+
             Log.LogWarning($"文件 {key} 不存在，无法删除。");
             return false;
         }

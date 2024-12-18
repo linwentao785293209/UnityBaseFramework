@@ -6,14 +6,12 @@ using System.Xml.Serialization;
 
 namespace BaseFramework
 {
-    /// <summary>
-    /// Xml 数据管理器
-    /// </summary>
     public class XmlDataManager : DataManagerBase<XmlDataManager>
     {
         protected override string DataString => Const.Xml;
         protected override EDataType DataType => EDataType.Xml;
         protected override string DataExtension => "xml";
+
         private readonly ConcurrentDictionary<Type, XmlSerializer> _xmlSerializerCache =
             new ConcurrentDictionary<Type, XmlSerializer>();
 
@@ -61,6 +59,7 @@ namespace BaseFramework
                     return Activator.CreateInstance(type);
                 }
             }
+
             using (var fileStream = new FileStream(path, FileMode.Open, FileAccess.Read))
             {
                 var xmlSerializer = GetSerializer(type);

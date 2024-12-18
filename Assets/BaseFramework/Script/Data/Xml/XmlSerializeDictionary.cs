@@ -5,11 +5,6 @@ using System.Xml.Serialization;
 
 namespace BaseFramework
 {
-    /// <summary>
-    /// 一个可序列化的字典类，支持 XML 序列化和反序列化。
-    /// </summary>
-    /// <typeparam name="TKey">字典的键类型。</typeparam>
-    /// <typeparam name="TValue">字典的值类型。</typeparam>
     public class XmlSerializeDictionary<TKey, TValue> : Dictionary<TKey, TValue>, IXmlSerializable
     {
         /// <summary>

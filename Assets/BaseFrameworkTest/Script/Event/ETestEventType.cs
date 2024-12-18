@@ -6,6 +6,5 @@
         TestEventType2,
         TestEventType3,
         TestEventType4,
-        TestEventType5,
     }
 }
