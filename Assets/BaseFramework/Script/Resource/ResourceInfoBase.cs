@@ -25,5 +25,10 @@ namespace BaseFramework
 
             --RefCount;
         }
+
+        public void ResetRefCount()
+        {
+            RefCount = 0;
+        }
     }
 }

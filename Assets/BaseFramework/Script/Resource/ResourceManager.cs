@@ -73,6 +73,7 @@ namespace BaseFramework
             // 如果资源正在异步加载，立即加载同步资源并完成回调。
             if (resourceInfo.IsLoading)
             {
+                Log.LogInfo($"路径 {path} 资源类型为 {typeof(T)} 的资源尝试过异步加载 取消异步加载改成同步加载。");
                 MonoBehaviourManager.Instance.StopCoroutine(resourceInfo.Coroutine);
                 resourceInfo.Coroutine = null;
 
@@ -84,11 +85,13 @@ namespace BaseFramework
                     return null;
                 }
 
+                Log.LogInfo($"同步加载 路径 {path} 资源类型为 {typeof(T)} 的资源成功。");
                 resourceInfo.Asset = asset;
+
+                Log.LogInfo($"同步加载成功后 尝试执行异步加载 路径 {path} 资源类型为 {typeof(T)} 的资源时添加的回调。");
                 resourceInfo.CallBack?.Invoke(true, resourceInfo.Asset);
                 resourceInfo.CallBack = null;
 
-                Log.LogInfo($"同步加载 路径 {path} 资源类型为 {typeof(T)} 的资源成功。");
                 return asset;
             }
 
@@ -180,7 +183,7 @@ namespace BaseFramework
         /// <summary>
         /// 卸载资源。
         /// </summary>
-        public void UnloadAsset<T>(string path, UnityAction<bool, T> removeCallback = null) where T : UnityEngine.Object
+        public void Unload<T>(string path, UnityAction<bool, T> removeCallback = null) where T : UnityEngine.Object
         {
             if (!TryGetResourceInfo(path, out ResourceInfo<T> resourceInfo))
             {
@@ -218,7 +221,7 @@ namespace BaseFramework
             // 引用计数不为0
             else
             {
-                Log.LogInfo($"路径 {path} 资源类型为 {typeof(T)} 的资源引用计数不为0，仍然有资源依赖。");
+                Log.LogInfo($"路径 {path} 资源类型为 {typeof(T)} 的资源引用计数为{resourceInfo.RefCount}，仍然有资源依赖。");
                 // 异步加载中，移除指定回调
                 if (resourceInfo.IsLoading && removeCallback != null)
                 {
@@ -244,37 +247,6 @@ namespace BaseFramework
             }
 
             return resourceInfo.RefCount;
-        }
-
-        /// <summary>
-        /// 清空资源记录并卸载未使用资源。
-        /// </summary>
-        public void Clear(UnityAction clearCallBack)
-        {
-            MonoBehaviourManager.Instance.StartCoroutine(ClearCoroutine(clearCallBack));
-        }
-
-        /// <summary>
-        /// 清空资源记录并卸载未使用资源协程。
-        /// </summary>
-        private IEnumerator ClearCoroutine(UnityAction clearCallBack)
-        {
-            foreach (var pathDict in _resourceInfoDictionary.Values)
-            {
-                foreach (var resourceInfo in pathDict.Values)
-                {
-                    if (resourceInfo.Coroutine != null)
-                    {
-                        MonoBehaviourManager.Instance.StopCoroutine(resourceInfo.Coroutine);
-                        resourceInfo.Coroutine = null;
-                    }
-                }
-            }
-
-            _resourceInfoDictionary.Clear();
-            AsyncOperation asyncOperation = Resources.UnloadUnusedAssets();
-            yield return asyncOperation;
-            clearCallBack?.Invoke();
         }
     }
 }
