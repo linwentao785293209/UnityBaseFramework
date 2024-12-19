@@ -245,5 +245,36 @@ namespace BaseFramework
 
             return resourceInfo.RefCount;
         }
+
+        /// <summary>
+        /// 清空所有资源记录并卸载未使用资源
+        /// </summary>
+        public void Clear(UnityAction clearCallBack = null)
+        {
+            MonoBehaviourManager.Instance.StartCoroutine(ClearCoroutine(clearCallBack));
+        }
+
+        /// <summary>
+        /// 清空资源记录并卸载未使用资源协程。
+        /// </summary>
+        private IEnumerator ClearCoroutine(UnityAction clearCallBack)
+        {
+            foreach (var pathDict in _resourceInfoDictionary.Values)
+            {
+                foreach (var resourceInfo in pathDict.Values)
+                {
+                    if (resourceInfo.RefCount == 0)
+                    {
+                        MonoBehaviourManager.Instance.StopCoroutine(resourceInfo.Coroutine);
+                        resourceInfo.Coroutine = null;
+                    }
+                }
+            }
+
+            AsyncOperation asyncOperation = Resources.UnloadUnusedAssets();
+            yield return asyncOperation;
+            GC.Collect();
+            clearCallBack?.Invoke();
+        }
     }
 }
